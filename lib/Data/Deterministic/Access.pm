@@ -45,6 +45,13 @@ sub pop {
     return $key;
 }
 
+#  returns undef if key not in hash
+sub get_key_pos {
+    my ($self, $key) = @_;
+    return $self->{order_hash}{$key};
+}
+
+
 #  returns undef if index is out of bounds
 sub get_key_at_pos {
     my ($self, $pos) = @_;
@@ -68,6 +75,7 @@ sub delete {
 
 #  delete the key at the specified position
 #  and move the last key into it
+#  Not a true splice, but one day might be.
 sub splice {
     my ($self, $pos) = @_;
     

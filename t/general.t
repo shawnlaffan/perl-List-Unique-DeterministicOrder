@@ -45,7 +45,7 @@ my $deletion = $obj->splice (1);
 is $deletion, $keys[1], "key deletion of position returned $keys[1]";
 ok (!$obj->exists ($keys[1]), "no $keys[1] in the hash");
 $key_count = $obj->keys;
-is ($key_count, 4, "Got correct key count after delete_key_at_pos");
+is ($key_count, 4, "Got correct key count after splice");
 
 eval {$obj->_paranoia};
 note $@ if $@;
@@ -61,6 +61,32 @@ is ($key_count, 3, "Got correct key count after delete");
 ok (!$obj->exists ('c'), 'no c in the hash');
 
 note "Keys are now " . join ' ', $obj->keys;
+
+#  add some keys that are already there
+foreach my $new_key (qw /a y b/) {
+    $obj->push ($new_key);
+}
+$key_count = $obj->keys;
+is ($key_count, 3, 'adding existing keys has no effect');
+
+
+#  now add some new keys
+foreach my $new_key (qw /aa yy bb/) {
+    $obj->push ($new_key);
+}
+$key_count = $obj->keys;
+is ($key_count, 6, 'adding new keys has an effect');
+
+note "Keys are now " . join ' ', $obj->keys;
+
+#  check the last key is moved into the deleted key's position
+my $pos_b = $obj->get_key_pos ('b');
+$obj->delete ('b');
+is $obj->get_key_pos ('bb'), $pos_b, 'key bb is now where b was';
+$obj->delete ('bb');
+is $obj->get_key_pos ('yy'), $pos_b, 'key yy is now where b was';
+
+is $obj->delete ('fnorbleyorble'), undef, 'deletion of non-existent key returns undef';
 
 
 done_testing();
