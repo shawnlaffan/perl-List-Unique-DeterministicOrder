@@ -13,49 +13,49 @@ sub new {
     my $package = shift;
 
     my $self = {
-        order_hash => {},
-        key_array  => [],
+        hash  => {},
+        array => [],
     };
     return bless $self, $package;
 }
 
 sub exists {
     my ($self, $key) = @_;
-    return exists $self->{order_hash}{$key};
+    return exists $self->{hash}{$key};
 }
 
 sub keys {
     my ($self) = @_;
-    return wantarray ? @{$self->{key_array}} : scalar @{$self->{key_array}};
+    return wantarray ? @{$self->{array}} : scalar @{$self->{array}};
 }
 
 sub push {
     my ($self, $key) = @_;
 
-    return if exists $self->{order_hash}{$key};
+    return if exists $self->{hash}{$key};
     
-    push @{$self->{key_array}}, $key;
-    $self->{order_hash}{$key} = $#{$self->{key_array}};
+    push @{$self->{array}}, $key;
+    $self->{hash}{$key} = $#{$self->{array}};
 }
 
 sub pop {
     my ($self) = @_;
-    my $key = pop @{$self->{key_array}};
-    delete $self->{order_hash}{$key};
+    my $key = pop @{$self->{array}};
+    delete $self->{hash}{$key};
     return $key;
 }
 
 #  returns undef if key not in hash
 sub get_key_pos {
     my ($self, $key) = @_;
-    return $self->{order_hash}{$key};
+    return $self->{hash}{$key};
 }
 
 
 #  returns undef if index is out of bounds
 sub get_key_at_pos {
     my ($self, $pos) = @_;
-    return $self->{key_array}[$pos];
+    return $self->{array}[$pos];
 }
 
 #  does nothing if key does not exist
@@ -63,12 +63,12 @@ sub delete {
     my ($self, $key) = @_;
     
     #  get the index while cleaning up
-    my $pos = CORE::delete $self->{order_hash}{$key}
+    my $pos = CORE::delete $self->{hash}{$key}
       // return;
     
-    my $move_key = CORE::pop @{$self->{key_array}};
-    $self->{order_hash}{$move_key} = $pos;
-    $self->{key_array}[$pos] = $move_key;
+    my $move_key = CORE::pop @{$self->{array}};
+    $self->{hash}{$move_key} = $pos;
+    $self->{array}[$pos] = $move_key;
     
     return $key;
 }
@@ -79,13 +79,13 @@ sub delete {
 sub splice {
     my ($self, $pos) = @_;
     
-    my $key = $self->{key_array}[$pos]
+    my $key = $self->{array}[$pos]
       // return;
     
-    my $move_key = CORE::pop @{$self->{key_array}};
-    $self->{order_hash}{$move_key} = $pos;
-    $self->{key_array}[$pos] = $move_key;
-    CORE::delete $self->{order_hash}{$key};
+    my $move_key = CORE::pop @{$self->{array}};
+    $self->{hash}{$move_key} = $pos;
+    $self->{array}[$pos] = $move_key;
+    CORE::delete $self->{hash}{$key};
     return $key;
 }
 
@@ -93,13 +93,13 @@ sub splice {
 sub _paranoia {
     my ($self) = @_;
     
-    my $array_len = @{$self->{key_array}};
-    my $hash_len  = CORE::keys %{$self->{order_hash}};
+    my $array_len = @{$self->{array}};
+    my $hash_len  = CORE::keys %{$self->{hash}};
     croak "array and hash key mismatch" if $array_len != $hash_len;
     
-    foreach my $key (@{$self->{key_array}}) {
+    foreach my $key (@{$self->{array}}) {
         croak "Key mismatch between array and hash lists"
-          if !CORE::exists $self->{order_hash}{$key}; 
+          if !CORE::exists $self->{hash}{$key}; 
     }
     
     return 1;
