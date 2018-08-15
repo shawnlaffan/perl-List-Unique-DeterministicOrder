@@ -86,7 +86,12 @@ is $obj->get_key_pos ('bb'), $pos_b, 'key bb is now where b was';
 $obj->delete ('bb');
 is $obj->get_key_pos ('yy'), $pos_b, 'key yy is now where b was';
 
-is $obj->delete ('fnorbleyorble'), undef, 'deletion of non-existent key returns undef';
+is  $obj->delete ('fnorbleyorble'),
+    undef,
+    'deletion of non-existent key returns undef';
 
+is $obj->get_key_at_pos (1000),
+   undef,
+   'got undef for out of bounds position call';
 
 done_testing();
