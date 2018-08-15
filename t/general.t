@@ -60,7 +60,7 @@ $key_count = $obj->keys;
 is ($key_count, 3, "Got correct key count after delete");
 ok (!$obj->exists ('c'), 'no c in the hash');
 
-note "Keys are now " . join ' ', $obj->keys;
+#note "Keys are now " . join ' ', $obj->keys;
 
 #  add some keys that are already there
 foreach my $new_key (qw /a y b/) {
@@ -77,7 +77,7 @@ foreach my $new_key (qw /aa yy bb/) {
 $key_count = $obj->keys;
 is ($key_count, 6, 'adding new keys has an effect');
 
-note "Keys are now " . join ' ', $obj->keys;
+#note "Keys are now " . join ' ', $obj->keys;
 
 #  check the last key is moved into the deleted key's position
 my $pos_b = $obj->get_key_pos ('b');
@@ -92,6 +92,11 @@ is  $obj->delete ('fnorbleyorble'),
 
 is $obj->get_key_at_pos (1000),
    undef,
-   'got undef for out of bounds position call';
+   'got undef for positive out of bounds position call';
+
+is $obj->get_key_at_pos (-20),
+   undef,
+   'got undef for negative out of bounds position call';
+
 
 done_testing();
