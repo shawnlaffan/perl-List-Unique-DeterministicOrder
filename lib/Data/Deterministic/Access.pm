@@ -26,7 +26,9 @@ sub exists {
 
 sub keys {
     my ($self) = @_;
-    return wantarray ? @{$self->{array}} : scalar @{$self->{array}};
+    return wantarray
+      ? @{$self->{array}}
+      : scalar @{$self->{array}};
 }
 
 sub push {
@@ -67,15 +69,20 @@ sub delete {
       // return;
     
     my $move_key = CORE::pop @{$self->{array}};
-    $self->{hash}{$move_key} = $pos;
-    $self->{array}[$pos] = $move_key;
+    #  make sure we don't just reinsert the last item
+    #  from a single item list
+    if ($move_key ne $key) {
+        $self->{hash}{$move_key} = $pos;
+        $self->{array}[$pos] = $move_key;
+    }
     
     return $key;
 }
 
-#  delete the key at the specified position
-#  and move the last key into it
-#  Not a true splice, but one day might be.
+#  Delete the key at the specified position
+#  and move the last key into it.
+#  Not a true splice, but one day might work
+#  on multiple indices.
 sub splice {
     my ($self, $pos) = @_;
     
