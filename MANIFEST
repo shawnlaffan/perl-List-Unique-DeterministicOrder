@@ -1,0 +1,20 @@
+Changes
+etc/bench/bench.pl
+etc/bench/profile.pl
+ignore.txt
+lib/Data/Deterministic/Access.pm
+Makefile
+Makefile.old
+Makefile.PL
+MANIFEST			This list of files
+MANIFEST.bak
+MANIFEST.SKIP
+MYMETA.json
+MYMETA.yml
+README
+t/00-load.t
+t/general.t
+xt/boilerplate.t
+xt/manifest.t
+xt/pod-coverage.t
+xt/pod.t
