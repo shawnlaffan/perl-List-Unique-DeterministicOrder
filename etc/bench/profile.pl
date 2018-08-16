@@ -62,6 +62,9 @@ sub ldd {
         $dds->delete ($key);
         my $insert = $insertions[$i] // next;
         $dds->push ($insert);
+        if ($i % 5) {
+            $dds->splice ($i);
+        }
     }
     [$dds->keys];
 }
