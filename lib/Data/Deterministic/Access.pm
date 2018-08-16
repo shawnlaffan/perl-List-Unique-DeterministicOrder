@@ -4,18 +4,36 @@ use 5.010;
 use Carp;
 use strict;
 use warnings;
+use List::Util qw /uniq/;
 
 our $VERSION = 0.001;
 
 no autovivification;
 
 sub new {
-    my $package = shift;
+    my ($package, %args) = @_;
 
     my $self = {
         hash  => {},
         array => [],
     };
+    
+    #  use data if we were passed some
+    if (my $data = $args{data}) {
+        my %hash;
+        @hash{@$data} = (0..$#$data);
+        #  rebuild the lists if there were dups
+        if (scalar keys %hash != scalar @$data) {
+            my @uniq = uniq @$data;
+            @hash{@uniq} = (0..$#uniq);
+            $self->{array} = \@uniq;
+        }
+        else {
+            $self->{array} = [@$data];
+        }
+        $self->{hash} = \%hash;
+    }
+    
     return bless $self, $package;
 }
 

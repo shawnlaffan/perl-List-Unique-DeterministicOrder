@@ -36,10 +36,7 @@ my @insertions = sort {$insertion_hash{$a} <=> $insertion_hash{$b}} keys %insert
 
 my @sorted_keys = sort keys %$hashref;
 
-my $dds_base = Data::Deterministic::Access->new();
-foreach my $key (@sorted_keys) {
-    $dds_base->push ($key);
-}
+my $dds_base = Data::Deterministic::Access->new(data => \@sorted_keys);
 
 my %data = (
     lmu => [],
@@ -48,7 +45,7 @@ my %data = (
     baseline => [],
 );
 
-#  make lots of copies to ensure data creation
+#  make lots of copies to ensure data generation
 #  is outside the benchmarking
 foreach my $i (0 .. $nreps+1) {
     push @{$data{lmu}}, [@sorted_keys];
@@ -164,3 +161,31 @@ lbs       159/s       5%       --     -60%     -97%
 ldd       394/s     161%     147%       --     -93%
 baseline 5612/s    3614%    3425%    1326%       --
 
+
+perl etc\bench\bench.pl 500 10000 1
+First few items in each list:
+aadb aadn aadv aagi aaja aaje
+aadb aadn aadv aagi aaja aaje
+flf okfo xygf twqx pnzi mntz
+ok 1 - same order
+ok 2 - same contents
+1..2
+           Rate      lmu      lbs      ldd baseline
+lmu      2.82/s       --      -3%     -90%     -99%
+lbs      2.90/s       3%       --     -90%     -99%
+ldd      28.2/s     900%     874%       --     -91%
+baseline  302/s   10593%   10316%     969%       --
+
+perl etc\bench\bench.pl 50 50000 1
+First few items in each list:
+aa aaaa aaad aaal aaar aaat
+aa aaaa aaad aaal aaar aaat
+aafg qrtw qawr rxhn cbgu fwkn
+ok 1 - same order
+ok 2 - same contents
+1..2
+            s/iter      lmu      lbs      ldd baseline
+lmu           10.1       --     -15%     -98%    -100%
+lbs           8.55      18%       --     -98%    -100%
+ldd          0.195    5087%    4285%       --     -88%
+baseline 2.25e-002   44861%   37911%     767%       --

@@ -4,13 +4,9 @@ use rlib;
 use Test::More;
 use Data::Deterministic::Access;
 
-
-my $obj = Data::Deterministic::Access->new;
-
 my @keys = qw /a z b y c x/;
-foreach my $key (@keys) {
-    $obj->push ($key);
-}
+
+my $obj = Data::Deterministic::Access->new (data => \@keys);
 
 foreach my $key (@keys) {
     ok ($obj->exists ($key), "Contains $key"); 
