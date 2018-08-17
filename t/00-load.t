@@ -7,7 +7,7 @@ use Test::More;
 plan tests => 1;
 
 BEGIN {
-    use_ok( 'Data::Deterministic::Access' ) || print "Bail out!\n";
+    use_ok( 'List::Unique::DeterministicOrder' ) || print "Bail out!\n";
 }
 
-diag( "Testing Data::Deterministic::Access $Data::Deterministic::Access::VERSION, Perl $], $^X" );
+diag( "Testing List::Unique::DeterministicOrder $List::Unique::DeterministicOrder::VERSION, Perl $], $^X" );

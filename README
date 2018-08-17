@@ -1,4 +1,4 @@
-Data-Deterministic-Access
+List-Unique-DeterministicOrder
 
 TThis module provides a structure to store a set
 of keys and be able to access (mostly delete)
@@ -41,21 +41,21 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc Data::Deterministic::Access
+    perldoc List::Unique::DeterministicOrder
 
 You can also look for information at:
 
     RT, CPAN's request tracker (report bugs here)
-        https://rt.cpan.org/NoAuth/Bugs.html?Dist=Data-Deterministic-Access
+        https://rt.cpan.org/NoAuth/Bugs.html?Dist=List-Unique-DeterministicOrder
 
     AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Data-Deterministic-Access
+        http://annocpan.org/dist/List-Unique-DeterministicOrder
 
     CPAN Ratings
-        https://cpanratings.perl.org/d/Data-Deterministic-Access
+        https://cpanratings.perl.org/d/List-Unique-DeterministicOrder
 
     Search CPAN
-        https://metacpan.org/release/Data-Deterministic-Access
+        https://metacpan.org/release/List-Unique-DeterministicOrder
 
 
 LICENSE AND COPYRIGHT

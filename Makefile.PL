@@ -4,7 +4,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME             => 'Data::Deterministic::Access',
+    NAME             => 'List::Unique::DeterministicOrder',
     AUTHOR           => q{SLAFFAN <shawnlaffan@gmail.com>},
     VERSION_FROM     => 'lib/Data/Deterministic/Access.pm',
     ABSTRACT_FROM    => 'lib/Data/Deterministic/Access.pm',
@@ -23,5 +23,5 @@ WriteMakefile(
         'Carp' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'Data-Deterministic-Access-*' },
+    clean => { FILES => 'List-Unique-DeterministicOrder-*' },
 );

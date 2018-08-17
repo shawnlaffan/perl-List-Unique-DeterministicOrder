@@ -2,11 +2,11 @@ use 5.010;
 use rlib;
 
 use Test::More;
-use Data::Deterministic::Access;
+use List::Unique::DeterministicOrder;
 
 my @keys = qw /a z b y c x/;
 
-my $obj = Data::Deterministic::Access->new (data => \@keys);
+my $obj = List::Unique::DeterministicOrder->new (data => \@keys);
 
 foreach my $key (@keys) {
     ok ($obj->exists ($key), "Contains $key"); 

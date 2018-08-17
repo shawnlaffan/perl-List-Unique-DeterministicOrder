@@ -1,4 +1,4 @@
-package Data::Deterministic::Access;
+package List::Unique::DeterministicOrder;
 
 use 5.010;
 use Carp;
@@ -134,7 +134,7 @@ sub _paranoia {
 
 =head1 NAME
 
-Data::Deterministic::Access - Store keys with deterministic order based on insertions and deletions
+List::Unique::DeterministicOrder - Store keys with deterministic order based on insertions and deletions
 
 =head1 VERSION
 
@@ -170,9 +170,9 @@ much larger and the number of lists
 became both abundant and lengthy.
 
 
-    use Data::Deterministic::Access;
+    use List::Unique::DeterministicOrder;
 
-    my $foo = Data::Deterministic::Access->new(
+    my $foo = List::Unique::DeterministicOrder->new(
         data => [qw /foo bar quux fetangle/]
     );
     
@@ -288,7 +288,7 @@ Shawn Laffan, C<< <shawnlaffan at gmail.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-data-deterministic-access at rt.cpan.org>, or through
-the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=Data-Deterministic-Access>.  I will be notified, and then you'll
+the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=List-Unique-DeterministicOrder>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
 
@@ -298,7 +298,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Data::Deterministic::Access
+    perldoc List::Unique::DeterministicOrder
 
 
 You can also look for information at:
@@ -307,19 +307,19 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker (report bugs here)
 
-L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=Data-Deterministic-Access>
+L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=List-Unique-DeterministicOrder>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Data-Deterministic-Access>
+L<http://annocpan.org/dist/List-Unique-DeterministicOrder>
 
 =item * CPAN Ratings
 
-L<https://cpanratings.perl.org/d/Data-Deterministic-Access>
+L<https://cpanratings.perl.org/d/List-Unique-DeterministicOrder>
 
 =item * Search CPAN
 
-L<https://metacpan.org/release/Data-Deterministic-Access>
+L<https://metacpan.org/release/List-Unique-DeterministicOrder>
 
 =back
 

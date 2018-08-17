@@ -6,7 +6,7 @@ use Test::More;
 
 use rlib '../../lib';
 
-use Data::Deterministic::Access;
+use List::Unique::DeterministicOrder;
 use List::BinarySearch::XS qw /binsearch/;
 use List::MoreUtils::XS 0.423 qw/bremove binsert/;
 use List::MoreUtils;# qw /bremove/;
@@ -36,7 +36,7 @@ my @insertions = sort {$insertion_hash{$a} <=> $insertion_hash{$b}} keys %insert
 
 my @sorted_keys = sort keys %$hashref;
 
-my $dds_base = Data::Deterministic::Access->new(data => \@sorted_keys);
+my $dds_base = List::Unique::DeterministicOrder->new(data => \@sorted_keys);
 
 my %data = (
     lmu => [],
