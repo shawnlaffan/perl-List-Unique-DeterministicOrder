@@ -329,6 +329,15 @@ L<https://metacpan.org/release/List-Unique-DeterministicOrder>
 The algorithm used is from
 L<https://stackoverflow.com/questions/5682218/data-structure-insert-remove-contains-get-random-element-all-at-o1/5684892#5684892>
 
+=head1 SEE ALSO
+
+L<Hash::Ordered>
+
+L<List::BinarySearch>
+
+L<List::MoreUtils>
+
+
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2018 Shawn Laffan 

@@ -1,29 +1,43 @@
 List-Unique-DeterministicOrder
 
-TThis module provides a structure to store a set
+This module provides a structure to store a set
 of keys and be able to access (mostly delete)
-them both by key name and by index.
+them by either key name or index.
 
-The algorithm used inserts at the end, but
+The algorithm used inserts keys at the end, but
 swaps keys around on deletion.  Hence it is
-deterministic and repeatable providing the
-sequence of insertion and deletions is also
-repeated.  
+deterministic and repeatable, but only if the
+sequence of insertion and deletions is replicated
+exactly.  
+
+The algorithm used is from
+https://stackoverflow.com/questions/5682218/data-structure-insert-remove-contains-get-random-element-all-at-o1/5684892#5684892
 
 The system does not store any contents with the keys,
 so it is more of a "set" structure, but one that
 does not do intersections, unions and the like.
 
-So why would one want this in the first place?
-In my case it is for a series of random selections
+So why would one use this in the first place?
+The motivating use case was to track keys
+under a random selection procedure 
 where keys are extracted from a pool of keys,
-and sometimes inserted.  The randomisations should
-be the same for the same given PRNG sequence.
+and sometimes inserted.  e.g. the process might
+select and remove the 10th key, then the 257th,
+then insert a new key, followed by more selections
+and removals.  The randomisations needed to 
+produce the same results same for the same given
+PRNG sequence for reproducibility purposes.
+Using a hash to store the data provides rapid access,
+but getting the nth key requires the key list be generated,
+and Perl's hashes do not provide their keys in a deterministic
+order across all versions and platforms.  
 Binary searches over sorted lists proved very
 effective for a while, but bottlenecks started
 to manifest when the data sets became
 much larger and the number of lists
 became both abundant and lengthy.
+Since the order itself does not matter,
+only the ability to replicate it, this module was written.
 
 
 
