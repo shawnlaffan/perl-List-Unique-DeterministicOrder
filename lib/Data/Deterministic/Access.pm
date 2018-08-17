@@ -209,14 +209,18 @@ became both abundant and lengthy.
 
 Note that most methods take a single argument
 (if any), so while the method names look
-hash-like, this is purely cosmetic.
+hash-like, this is essentially cosmetic.
 
 =head2 new
 
 Create a new object.
 Optionally pass data using the data
 keyword.  Duplicate keys are
-stored once only.  
+stored once only.
+
+    $foo->new();
+
+    $foo->new(data => [/a b c d e/]);
 
 =cut
 
@@ -236,7 +240,7 @@ True or false for if the key exists.
 
 Returns the key at some position.
 
-$foo->get_key_at_pos(5);
+    $foo->get_key_at_pos(5);
 
 =cut
 
@@ -244,7 +248,7 @@ $foo->get_key_at_pos(5);
 
 Returns the position of a key.
 
-$foo->get_key_pos('quux');
+    $foo->get_key_pos('quux');
 
 =cut
 
@@ -270,7 +274,9 @@ unless it is already in the set.
 
 =head2 splice
 
-Removes a single key from the set.
+Removes a single key from the set at the specified position.
+
+    $foo->splice(1);
 
 =cut
 
