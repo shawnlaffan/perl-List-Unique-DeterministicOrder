@@ -152,7 +152,9 @@ sub _paranoia {
 
 =head1 NAME
 
-List::Unique::DeterministicOrder - Store keys with deterministic order based on insertions and deletions
+List::Unique::DeterministicOrder - Store a list of
+keys using a deterministic order based on
+the sequence of insertions and deletions
 
 =head1 VERSION
 
@@ -162,40 +164,9 @@ Version 0.01
 
 =head1 SYNOPSIS
 
-This module provides a structure to store a set
+This module provides a structure to store a list
 of keys, without duplicates, and be able to access
 them by either key name or index.
-
-The algorithm used inserts keys at the end, but
-swaps keys around on deletion.  Hence it is
-deterministic and repeatable, but only if the
-sequence of insertion and deletions is replicated
-exactly.  
-
-The algorithm used is from
-L<https://stackoverflow.com/questions/5682218/data-structure-insert-remove-contains-get-random-element-all-at-o1/5684892#5684892>
-
-So why would one use this in the first place?
-The motivating use case was to track keys
-under a random selection procedure 
-where keys are extracted from a pool of keys,
-and sometimes inserted.  e.g. the process might
-select and remove the 10th key, then the 257th,
-then insert a new key, followed by more selections
-and removals.  The randomisations needed to 
-produce the same results same for the same given
-PRNG sequence for reproducibility purposes.
-Using a hash to store the data provides rapid access,
-but getting the nth key requires the key list be generated,
-and Perl's hashes do not provide their keys in a deterministic
-order across all versions and platforms.  
-Binary searches over sorted lists proved very
-effective for a while, but bottlenecks started
-to manifest when the data sets became
-much larger and the number of lists
-became both abundant and lengthy.
-Since the order itself does not matter,
-only the ability to replicate it, this module was written.
 
 
     use List::Unique::DeterministicOrder;
@@ -232,6 +203,47 @@ only the ability to replicate it, this module was written.
     print $foo->pop;
     #  bardungle
     
+
+=head1 DISCUSSION
+
+The algorithm used is from
+L<https://stackoverflow.com/questions/5682218/data-structure-insert-remove-contains-get-random-element-all-at-o1/5684892#5684892>
+
+The algorithm used inserts keys at the end, but
+swaps keys around on deletion.  Hence it is
+deterministic and repeatable, but only if the
+sequence of insertions and deletions is replicated
+exactly.  
+
+So why would one use this in the first place?
+The motivating use-case was a randomisation process
+where keys would be selected from a pool of keys,
+and sometimes inserted.  e.g. the process might
+select and remove the 10th key, then the 257th,
+then insert a new key, followed by more selections
+and removals.  The randomisations needed to 
+produce the same results same for the same given
+PRNG sequence for reproducibility purposes.
+Using a hash to store the data provides rapid access,
+but getting the nth key requires the key list be generated
+each time, but Perl's hashes do not provide their
+keys in a deterministic
+order across all versions and platforms.  
+Binary searches over sorted lists proved very
+effective for a while, but bottlenecks started
+to manifest when the data sets became
+much larger and the number of lists
+became both abundant and lengthy.
+Since the order itself does not matter,
+only the ability to replicate it, this module was written.
+
+One could also use L<Hash::Ordered>, but it has the overhead
+of also storing values, which is not needed in this case.
+I also wrote this module before I benchmarked
+against Hash::Ordered.  In any case, this module is faster
+for the case described above (see the benchmarking results in
+bench.pl which is part of this distribution).
+
 
 =head1 METHODS
 
