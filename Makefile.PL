@@ -6,8 +6,8 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME             => 'List::Unique::DeterministicOrder',
     AUTHOR           => q{SLAFFAN <shawnlaffan@gmail.com>},
-    VERSION_FROM     => 'lib/Data/Deterministic/Access.pm',
-    ABSTRACT_FROM    => 'lib/Data/Deterministic/Access.pm',
+    VERSION_FROM     => 'lib/List/Unique/DeterministicOrder.pm',
+    ABSTRACT_FROM    => 'lib/List/Unique/DeterministicOrder.pm',
     LICENSE          => 'artistic_2',
     PL_FILES         => {},
     MIN_PERL_VERSION => '5.010',
