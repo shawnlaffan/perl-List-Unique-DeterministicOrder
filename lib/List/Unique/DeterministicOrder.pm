@@ -99,20 +99,42 @@ sub delete {
 
 #  Delete the key at the specified position
 #  and move the last key into it.
-#  Not a true splice, but one day might work
-#  on multiple indices.
-sub splice {
+#  Does nothing if key does not exist
+sub delete_key_at_pos {
     my ($self, $pos) = @_;
     
     my $key = $self->{array}[$pos]
       // return;
     
     my $move_key = CORE::pop @{$self->{array}};
-    $self->{hash}{$move_key} = $pos;
-    $self->{array}[$pos] = $move_key;
     CORE::delete $self->{hash}{$key};
+    
+    #  make sure we don't just reinsert the last item
+    #  from a single item list
+    if ($move_key ne $key) {
+        $self->{hash}{$move_key} = $pos;
+        $self->{array}[$pos] = $move_key;
+    }
+    
     return $key;
 }
+
+#  Delete the key at the specified position
+#  and move the last key into it.
+#  Not a true splice, but one day might work
+#  on multiple indices.
+#sub splice {
+#    my ($self, $pos) = @_;
+#    
+#    my $key = $self->{array}[$pos]
+#      // return;
+#    
+#    my $move_key = CORE::pop @{$self->{array}};
+#    $self->{hash}{$move_key} = $pos;
+#    $self->{array}[$pos] = $move_key;
+#    CORE::delete $self->{hash}{$key};
+#    return $key;
+#}
 
 
 sub _paranoia {
@@ -282,11 +304,11 @@ unless it is already in the set.
 
 =cut
 
-=head2 splice
+=head2 delete_key_at_pos
 
 Removes a single key from the set at the specified position.
 
-    $foo->splice(1);
+    $foo->delete_key_at_pos(1);
 
 =cut
 

@@ -37,11 +37,11 @@ $key_count = $obj->keys;
 is ($key_count, 5, "Got correct key count after pop");
 
 #  now we delete some keys by index
-my $deletion = $obj->splice (1);
+my $deletion = $obj->delete_key_at_pos (1);
 is $deletion, $keys[1], "key deletion of position returned $keys[1]";
 ok (!$obj->exists ($keys[1]), "no $keys[1] in the hash");
 $key_count = $obj->keys;
-is ($key_count, 4, "Got correct key count after splice");
+is ($key_count, 4, "Got correct key count after delete_key_at_pos");
 
 eval {$obj->_paranoia};
 note $@ if $@;
@@ -94,5 +94,11 @@ is $obj->get_key_at_pos (-20),
    undef,
    'got undef for negative out of bounds position call';
 
+my $one_item = List::Unique::DeterministicOrder->new (
+    data => ['a_key'],
+);
+$one_item->delete_key_at_pos (0);
+
+is (scalar $one_item->keys, 0, 'empty list');
 
 done_testing();
