@@ -38,8 +38,7 @@ sub new {
 }
 
 sub exists {
-    my ($self, $key) = @_;
-    return exists $self->{hash}{$key};
+    exists $_[0]->{hash}{$_[1]};
 }
 
 sub keys {
@@ -59,23 +58,20 @@ sub push {
 }
 
 sub pop {
-    my ($self) = @_;
-    my $key = pop @{$self->{array}};
-    delete $self->{hash}{$key};
-    return $key;
+    my $key = pop @{$_[0]->{array}};
+    delete $_[0]->{hash}{$key};
+    $key;
 }
 
 #  returns undef if key not in hash
 sub get_key_pos {
-    my ($self, $key) = @_;
-    return $self->{hash}{$key};
+    $_[0]->{hash}{$_[1]};
 }
 
 
 #  returns undef if index is out of bounds
 sub get_key_at_pos {
-    my ($self, $pos) = @_;
-    return $self->{array}[$pos];
+    $_[0]->{array}[$_[1]];
 }
 
 #  does nothing if key does not exist
