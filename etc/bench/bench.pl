@@ -181,13 +181,13 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lmu      lbs      lho      ldd baseline
-lmu       175/s       --      -3%     -23%     -62%     -97%
-lbs       181/s       4%       --     -20%     -60%     -96%
-lho       226/s      29%      25%       --     -50%     -96%
-ldd       455/s     160%     151%     101%       --     -91%
-baseline 5160/s    2854%    2754%    2182%    1035%       --
+lmu       179/s       --      -4%     -29%     -69%     -96%
+lbs       186/s       4%       --     -27%     -68%     -96%
+lho       253/s      42%      36%       --     -57%     -95%
+ldd       585/s     228%     215%     131%       --     -88%
+baseline 5000/s    2700%    2592%    1875%     755%       --
 
-##  UNTESTED FOR ARRAY OBJECTS
+
 perl etc\bench\bench.pl 500 10000 1
 First few items in each list:
 aadb aadn aadv aagi aaja aaje
@@ -199,11 +199,11 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lbs      lmu      lho      ldd baseline
-lbs      3.41/s       --      -0%     -82%     -90%     -99%
-lmu      3.42/s       0%       --     -82%     -90%     -99%
-lho      18.9/s     452%     451%       --     -44%     -95%
-ldd      33.7/s     888%     886%      79%       --     -90%
-baseline  344/s    9971%    9957%    1724%     920%       --
+lbs      3.42/s       --      -1%     -83%     -92%     -99%
+lmu      3.46/s       1%       --     -83%     -91%     -99%
+lho      20.4/s     496%     489%       --     -50%     -95%
+ldd      40.5/s    1083%    1069%      98%       --     -89%
+baseline  377/s   10908%   10777%    1747%     831%       --
 
 perl etc\bench\bench.pl 50 50000 1
 First few items in each list:
@@ -216,8 +216,8 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
             Rate      lbs      lmu      lho      ldd baseline
-lbs      0.132/s       --      -0%     -96%     -98%    -100%
-lmu      0.132/s       0%       --     -96%     -98%    -100%
-lho       3.63/s    2651%    2643%       --     -41%     -92%
-ldd       6.11/s    4526%    4513%      68%       --     -87%
-baseline  45.7/s   34551%   34452%    1159%     649%       --
+lbs      0.134/s       --      -0%     -97%     -98%    -100%
+lmu      0.134/s       0%       --     -97%     -98%    -100%
+lho       3.90/s    2812%    2805%       --     -42%     -91%
+ldd       6.67/s    4881%    4868%      71%       --     -85%
+baseline  45.7/s   34045%   33961%    1073%     586%       --
