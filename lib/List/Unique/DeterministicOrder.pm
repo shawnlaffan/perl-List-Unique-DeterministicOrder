@@ -10,13 +10,16 @@ our $VERSION = 0.001;
 
 #no autovivification;
 
+use constant {
+    _ARRAY => 0, # ordered keys
+    _HASH  => 1, # unordered keys
+};
+
+
 sub new {
     my ($package, %args) = @_;
 
-    my $self = {
-        _HASH  => {},
-        _ARRAY => [],
-    };
+    my $self = [ [], {} ];
     
     #  use data if we were passed some
     if (my $data = $args{data}) {
@@ -26,52 +29,52 @@ sub new {
         if (scalar keys %hash != scalar @$data) {
             my @uniq = uniq @$data;
             @hash{@uniq} = (0..$#uniq);
-            $self->{_ARRAY} = \@uniq;
+            $self->[_ARRAY] = \@uniq;
         }
         else {
-            $self->{_ARRAY} = [@$data];
+            $self->[_ARRAY] = [@$data];
         }
-        $self->{_HASH} = \%hash;
+        $self->[_HASH] = \%hash;
     }
     
     return bless $self, $package;
 }
 
 sub exists {
-    exists $_[0]->{_HASH}{$_[1]};
+    exists $_[0]->[_HASH]{$_[1]};
 }
 
 sub keys {
     my ($self) = @_;
     return wantarray
-      ? @{$self->{_ARRAY}}
-      : scalar @{$self->{_ARRAY}};
+      ? @{$self->[_ARRAY]}
+      : scalar @{$self->[_ARRAY]};
 }
 
 sub push {
     my ($self, $key) = @_;
 
-    return if exists $self->{_HASH}{$key};
+    return if exists $self->[_HASH]{$key};
     
-    push @{$self->{_ARRAY}}, $key;
-    $self->{_HASH}{$key} = $#{$self->{_ARRAY}};
+    push @{$self->[_ARRAY]}, $key;
+    $self->[_HASH]{$key} = $#{$self->[_ARRAY]};
 }
 
 sub pop {
-    my $key = pop @{$_[0]->{_ARRAY}};
-    delete $_[0]->{_HASH}{$key};
+    my $key = pop @{$_[0]->[_ARRAY]};
+    delete $_[0]->[_HASH]{$key};
     $key;
 }
 
 #  returns undef if key not in hash
 sub get_key_pos {
-    $_[0]->{_HASH}{$_[1]};
+    $_[0]->[_HASH]{$_[1]};
 }
 
 
 #  returns undef if index is out of bounds
 sub get_key_at_pos {
-    $_[0]->{_ARRAY}[$_[1]];
+    $_[0]->[_ARRAY][$_[1]];
 }
 
 #  does nothing if key does not exist
@@ -79,15 +82,15 @@ sub delete {
     my ($self, $key) = @_;
     
     #  get the index while cleaning up
-    my $pos = CORE::delete $self->{_HASH}{$key}
+    my $pos = CORE::delete $self->[_HASH]{$key}
       // return;
     
-    my $move_key = CORE::pop @{$self->{_ARRAY}};
+    my $move_key = CORE::pop @{$self->[_ARRAY]};
     #  make sure we don't just reinsert the last item
     #  from a single item list
     if ($move_key ne $key) {
-        $self->{_HASH}{$move_key} = $pos;
-        $self->{_ARRAY}[$pos] = $move_key;
+        $self->[_HASH]{$move_key} = $pos;
+        $self->[_ARRAY][$pos] = $move_key;
     }
     
     return $key;
@@ -99,17 +102,17 @@ sub delete {
 sub delete_key_at_pos {
     my ($self, $pos) = @_;
     
-    my $key = $self->{_ARRAY}[$pos]
+    my $key = $self->[_ARRAY][$pos]
       // return;
     
-    my $move_key = CORE::pop @{$self->{_ARRAY}};
-    CORE::delete $self->{_HASH}{$key};
+    my $move_key = CORE::pop @{$self->[_ARRAY]};
+    CORE::delete $self->[_HASH]{$key};
     
     #  make sure we don't just reinsert the last item
     #  from a single item list
     if ($move_key ne $key) {
-        $self->{_HASH}{$move_key} = $pos;
-        $self->{_ARRAY}[$pos] = $move_key;
+        $self->[_HASH]{$move_key} = $pos;
+        $self->[_ARRAY][$pos] = $move_key;
     }
     
     return $key;
@@ -122,13 +125,13 @@ sub delete_key_at_pos {
 #sub splice {
 #    my ($self, $pos) = @_;
 #    
-#    my $key = $self->{_ARRAY}[$pos]
+#    my $key = $self->[_ARRAY][$pos]
 #      // return;
 #    
-#    my $move_key = CORE::pop @{$self->{_ARRAY}};
-#    $self->{_HASH}{$move_key} = $pos;
-#    $self->{_ARRAY}[$pos] = $move_key;
-#    CORE::delete $self->{_HASH}{$key};
+#    my $move_key = CORE::pop @{$self->[_ARRAY]};
+#    $self->[_HASH]{$move_key} = $pos;
+#    $self->[_ARRAY][$pos] = $move_key;
+#    CORE::delete $self->[_HASH]{$key};
 #    return $key;
 #}
 
@@ -136,13 +139,13 @@ sub delete_key_at_pos {
 sub _paranoia {
     my ($self) = @_;
     
-    my $array_len = @{$self->{_ARRAY}};
-    my $hash_len  = CORE::keys %{$self->{_HASH}};
+    my $array_len = @{$self->[_ARRAY]};
+    my $hash_len  = CORE::keys %{$self->[_HASH]};
     croak "array and hash key mismatch" if $array_len != $hash_len;
     
-    foreach my $key (@{$self->{_ARRAY}}) {
+    foreach my $key (@{$self->[_ARRAY]}) {
         croak "Key mismatch between array and hash lists"
-          if !CORE::exists $self->{_HASH}{$key}; 
+          if !CORE::exists $self->[_HASH]{$key}; 
     }
     
     return 1;

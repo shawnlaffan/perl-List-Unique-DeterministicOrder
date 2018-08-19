@@ -181,11 +181,11 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lmu      lbs      lho      ldd baseline
-lmu       178/s       --      -3%     -25%     -64%     -96%
-lbs       184/s       3%       --     -23%     -63%     -96%
-lho       239/s      34%      30%       --     -52%     -95%
-ldd       501/s     181%     172%     109%       --     -90%
-baseline 5081/s    2747%    2661%    2023%     915%       --
+lmu       179/s       --      -4%     -29%     -69%     -96%
+lbs       186/s       4%       --     -27%     -68%     -96%
+lho       253/s      42%      36%       --     -57%     -95%
+ldd       585/s     228%     215%     131%       --     -88%
+baseline 5000/s    2700%    2592%    1875%     755%       --
 
 
 perl etc\bench\bench.pl 500 10000 1
@@ -199,11 +199,11 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lbs      lmu      lho      ldd baseline
-lbs      3.41/s       --      -1%     -83%     -91%     -99%
+lbs      3.42/s       --      -1%     -83%     -92%     -99%
 lmu      3.46/s       1%       --     -83%     -91%     -99%
-lho      20.5/s     501%     493%       --     -48%     -94%
-ldd      39.4/s    1053%    1038%      92%       --     -89%
-baseline  360/s   10438%   10302%    1655%     814%       --
+lho      20.4/s     496%     489%       --     -50%     -95%
+ldd      40.5/s    1083%    1069%      98%       --     -89%
+baseline  377/s   10908%   10777%    1747%     831%       --
 
 
 ###  NEEDS UPDATING
@@ -218,8 +218,8 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
             Rate      lbs      lmu      lho      ldd baseline
-lbs      0.131/s       --      -1%     -96%     -98%    -100%
-lmu      0.133/s       1%       --     -96%     -98%    -100%
-lho       3.56/s    2606%    2583%       --     -40%     -92%
-ldd       5.96/s    4436%    4396%      68%       --     -87%
-baseline  46.4/s   35207%   34895%    1205%     678%       --
+lbs      0.134/s       --      -0%     -97%     -98%    -100%
+lmu      0.134/s       0%       --     -97%     -98%    -100%
+lho       3.90/s    2812%    2805%       --     -42%     -91%
+ldd       6.67/s    4881%    4868%      71%       --     -85%
+baseline  45.7/s   34045%   33961%    1073%     586%       --
