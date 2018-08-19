@@ -181,11 +181,11 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lmu      lbs      lho      ldd baseline
-lmu       177/s       --      -6%     -21%     -61%     -97%
-lbs       188/s       6%       --     -17%     -59%     -96%
-lho       226/s      27%      20%       --     -50%     -96%
-ldd       455/s     156%     142%     101%       --     -91%
-baseline 5247/s    2859%    2694%    2225%    1054%       --
+lmu       178/s       --      -3%     -25%     -64%     -96%
+lbs       184/s       3%       --     -23%     -63%     -96%
+lho       239/s      34%      30%       --     -52%     -95%
+ldd       501/s     181%     172%     109%       --     -90%
+baseline 5081/s    2747%    2661%    2023%     915%       --
 
 
 perl etc\bench\bench.pl 500 10000 1
@@ -199,12 +199,14 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lbs      lmu      lho      ldd baseline
-lbs      3.41/s       --      -0%     -82%     -90%     -99%
-lmu      3.42/s       0%       --     -82%     -90%     -99%
-lho      18.9/s     452%     451%       --     -44%     -95%
-ldd      33.7/s     888%     886%      79%       --     -90%
-baseline  344/s    9971%    9957%    1724%     920%       --
+lbs      3.41/s       --      -1%     -83%     -91%     -99%
+lmu      3.46/s       1%       --     -83%     -91%     -99%
+lho      20.5/s     501%     493%       --     -48%     -94%
+ldd      39.4/s    1053%    1038%      92%       --     -89%
+baseline  360/s   10438%   10302%    1655%     814%       --
 
+
+###  NEEDS UPDATING
 perl etc\bench\bench.pl 50 50000 1
 First few items in each list:
 aa aaaa aaad aaal aaar aaat

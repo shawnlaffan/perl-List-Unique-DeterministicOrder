@@ -8,7 +8,7 @@ use List::Util qw /uniq/;
 
 our $VERSION = 0.001;
 
-no autovivification;
+#no autovivification;
 
 sub new {
     my ($package, %args) = @_;
