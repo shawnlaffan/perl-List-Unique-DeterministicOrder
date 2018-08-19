@@ -8,7 +8,7 @@ use List::Util qw /uniq/;
 
 our $VERSION = 0.001;
 
-no autovivification;
+#no autovivification;
 
 use constant {
     _ARRAY => 0, # ordered keys
