@@ -181,13 +181,13 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lmu      lbs      lho      ldd baseline
-lmu       177/s       --      -6%     -21%     -61%     -97%
-lbs       188/s       6%       --     -17%     -59%     -96%
-lho       226/s      27%      20%       --     -50%     -96%
-ldd       455/s     156%     142%     101%       --     -91%
-baseline 5247/s    2859%    2694%    2225%    1054%       --
+lmu       175/s       --      -3%     -23%     -62%     -97%
+lbs       181/s       4%       --     -20%     -60%     -96%
+lho       226/s      29%      25%       --     -50%     -96%
+ldd       455/s     160%     151%     101%       --     -91%
+baseline 5160/s    2854%    2754%    2182%    1035%       --
 
-
+##  UNTESTED FOR ARRAY OBJECTS
 perl etc\bench\bench.pl 500 10000 1
 First few items in each list:
 aadb aadn aadv aagi aaja aaje
@@ -216,8 +216,8 @@ ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
             Rate      lbs      lmu      lho      ldd baseline
-lbs      0.131/s       --      -1%     -96%     -98%    -100%
-lmu      0.133/s       1%       --     -96%     -98%    -100%
-lho       3.56/s    2606%    2583%       --     -40%     -92%
-ldd       5.96/s    4436%    4396%      68%       --     -87%
-baseline  46.4/s   35207%   34895%    1205%     678%       --
+lbs      0.132/s       --      -0%     -96%     -98%    -100%
+lmu      0.132/s       0%       --     -96%     -98%    -100%
+lho       3.63/s    2651%    2643%       --     -41%     -92%
+ldd       6.11/s    4526%    4513%      68%       --     -87%
+baseline  45.7/s   34551%   34452%    1159%     649%       --
