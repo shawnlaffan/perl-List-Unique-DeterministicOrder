@@ -246,7 +246,8 @@ I also wrote this module before I benchmarked
 against Hash::Ordered.  Regardless, this module is faster
 for the example use-case described above - see the
 benchmarking results in bench.pl (which is part of
-this distribution).
+this distribution).  That said, some of the implementation
+details have been adapted/borrowed from Hash::Ordered.
 
 
 =head1 METHODS
@@ -351,6 +352,8 @@ the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=List-Uniq
 
 The algorithm used is from
 L<https://stackoverflow.com/questions/5682218/data-structure-insert-remove-contains-get-random-element-all-at-o1/5684892#5684892>
+
+Some implementation details have been borrowed/adapted from L<Hash::Ordered>.
 
 =head1 SEE ALSO
 
