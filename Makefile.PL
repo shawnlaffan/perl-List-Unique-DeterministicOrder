@@ -19,7 +19,7 @@ WriteMakefile(
         'rlib' => 0,
     },
     PREREQ_PM => {
-        'List::Util' => 0,
+        'List::Util' => 1.45,
         'Carp' => 0,
     },
     META_MERGE => {

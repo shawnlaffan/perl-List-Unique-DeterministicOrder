@@ -4,7 +4,7 @@ use 5.010;
 use Carp;
 use strict;
 use warnings;
-use List::Util qw /uniq/;
+use List::Util 1.45 qw /uniq/;
 
 our $VERSION = 0.001;
 
