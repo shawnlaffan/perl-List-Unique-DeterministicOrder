@@ -19,24 +19,27 @@ my $nreps = $ARGV[0] || 500;
 my $data_size = $ARGV[1] || 1000;
 my $run_benchmarks = $ARGV[2];
 
+#  ratio of insertions to deletions
+my $insertion_frac = 0.1;
+my $insert_count   = $data_size * $insertion_frac;
+
 srand 1534390472;
 
 my %hashbase;
 #@hash{1..1000} = (rand()) x 1000;
-for my $i (1..$data_size) {
-    $hashbase{$i} = rand() + 1;
+my $item = 'a';
+for my $i (1 .. ($data_size +$insert_count)) {
+    $hashbase{$item} = rand() + 1;
+    $item ++;
 }
 my $hashref = \%hashbase;
 
-my %insertion_hash;
-for my $i ('a' .. 'zzzz') {
-    $insertion_hash{$i} = rand() + 1;
-}
-my @insertions = sort {$insertion_hash{$a} <=> $insertion_hash{$b}} keys %insertion_hash;
-
-
-my @sorted_keys = sort keys %$hashref;
+my @rand_keys    = sort {$hashbase{$a} <=> $hashbase{$b}} keys %hashbase;
+my @insertions   = splice @rand_keys, 0, $data_size * $insertion_frac;
+my @sorted_keys  = sort @rand_keys;
 my @sorted_pairs = map {$_ => 1} @sorted_keys;
+
+
 
 my $dds_base = List::Unique::DeterministicOrder->new(data => \@sorted_keys);
 my $ho_base  = Hash::Ordered->new (@sorted_pairs);
@@ -97,7 +100,7 @@ cmpthese (
 sub lbs {
     my $list = shift @{$data{lbs}};
     my $i = -1;
-    foreach my $key (@sorted_keys) {
+    foreach my $key (@rand_keys) {
         $i++;
         delete_from_sorted_list_aa($key, $list);
         my $insert = $insertions[$i] // next;
@@ -124,7 +127,7 @@ sub insert_into_sorted_list_aa {
 sub lmu {
     my $list = shift @{$data{lmu}};
     my $i = -1;
-    foreach my $key (@sorted_keys) {
+    foreach my $key (@rand_keys) {
         $i++;
         bremove {$_ cmp $key} @$list;
         my $insert = $insertions[$i] // next;
@@ -137,7 +140,7 @@ sub ldd {
     #  $dds reflects the old name for the module
     my $dds = shift @{$data{ldd}};
     my $i = -1;
-    foreach my $key (@sorted_keys) {
+    foreach my $key (@rand_keys) {
         $i++;
         $dds->delete ($key);
         my $insert = $insertions[$i] // next;
@@ -149,7 +152,7 @@ sub ldd {
 sub lho {
     my $ho = shift @{$data{lho}};
     my $i = -1;
-    foreach my $key (@sorted_keys) {
+    foreach my $key (@rand_keys) {
         $i++;
         $ho->delete ($key);
         my $insert = $insertions[$i] // next;
@@ -161,7 +164,7 @@ sub lho {
 sub baseline {
     my $list = shift @{$data{baseline}};
     my $i;
-    foreach my $key (keys %hashbase) {
+    foreach my $key (@rand_keys) {
         $i++;
         my $insert = $insertions[$i] // next;
     }
@@ -172,54 +175,72 @@ __END__
 
 perl etc\bench\bench.pl 5000 1000 1
 First few items in each list:
-aali aanc afib afzk agxb ahdg
-aali aanc afib afzk agxb ahdg
-pkme hmfp rtyt mwpd blnm njh
-hmfp rtyt mwpd blnm njh xgre
+aak aap aas abc abk aby
+aak aap aas abc abk aby
+fs agm ahh aft tp px
+gz aak amq nn cp sb
+ok 1 - same order
+ok 2 - same contents, list-u-det-order
+ok 3 - same contents, hash ordered
+1..3
+           Rate      lho      lbs      lmu      ldd baseline
+lho       284/s       --     -11%     -11%     -73%     -96%
+lbs       318/s      12%       --      -0%     -70%     -96%
+lmu       319/s      12%       0%       --     -70%     -96%
+ldd      1053/s     271%     231%     230%       --     -85%
+baseline 7112/s    2405%    2134%    2132%     576%       --
+
+
+perl etc\bench\bench.pl 500 10000 1
+First few items in each list:
+aak aap aas abc abk aby
+aak aap aas abc abk aby
+pau bpx ism hpl blm ofb
+ovt loc eug gxs gz biw
 ok 1 - same order
 ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
            Rate      lmu      lbs      lho      ldd baseline
-lmu       179/s       --      -4%     -29%     -69%     -96%
-lbs       186/s       4%       --     -27%     -68%     -96%
-lho       253/s      42%      36%       --     -57%     -95%
-ldd       585/s     228%     215%     131%       --     -88%
-baseline 5000/s    2700%    2592%    1875%     755%       --
+lmu      6.60/s       --     -30%     -62%     -81%     -98%
+lbs      9.36/s      42%       --     -45%     -73%     -97%
+lho      17.1/s     160%      83%       --     -51%     -95%
+ldd      35.1/s     431%     274%     105%       --     -90%
+baseline  368/s    5479%    3829%    2047%     950%       --
 
 
-perl etc\bench\bench.pl 500 10000 1
-First few items in each list:
-aadb aadn aadv aagi aaja aaje
-aadb aadn aadv aagi aaja aaje
-gntg gyxl rgqp mjgz ayfi abd
-gyxl rgqp mjgz ayfi abd wtja
-ok 1 - same order
-ok 2 - same contents, list-u-det-order
-ok 3 - same contents, hash ordered
-1..3
-           Rate      lbs      lmu      lho      ldd baseline
-lbs      3.42/s       --      -1%     -83%     -92%     -99%
-lmu      3.46/s       1%       --     -83%     -91%     -99%
-lho      20.4/s     496%     489%       --     -50%     -95%
-ldd      40.5/s    1083%    1069%      98%       --     -89%
-baseline  377/s   10908%   10777%    1747%     831%       --
-
-
-###  NEEDS UPDATING
 perl etc\bench\bench.pl 50 50000 1
 First few items in each list:
-aa aaaa aaad aaal aaar aaat
-aa aaaa aaad aaal aaar aaat
-odqc ersz ozmd kccn zgpi umeo
-ersz ozmd kccn zgpi umeo lhdw
+aaan aabb aabq aabx aacz aadd
+aaan aabb aabq aabx aacz aadd
+ahcx ansq bsir bkss aadw apiq
+bmzy ovt anya bclp aijn bqtc
 ok 1 - same order
 ok 2 - same contents, list-u-det-order
 ok 3 - same contents, hash ordered
 1..3
-            Rate      lbs      lmu      lho      ldd baseline
-lbs      0.134/s       --      -0%     -97%     -98%    -100%
-lmu      0.134/s       0%       --     -97%     -98%    -100%
-lho       3.90/s    2812%    2805%       --     -42%     -91%
-ldd       6.67/s    4881%    4868%      71%       --     -85%
-baseline  45.7/s   34045%   33961%    1073%     586%       --
+            Rate      lmu      lbs      lho      ldd baseline
+lmu      0.353/s       --     -18%     -89%     -97%    -100%
+lbs      0.428/s      21%       --     -87%     -96%    -100%
+lho       3.33/s     843%     678%       --     -71%     -97%
+ldd       11.6/s    3168%    2595%     247%       --     -89%
+baseline   107/s   30067%   24780%    3098%     823%       --
+
+
+perl etc\bench\bench.pl 5 100000 1
+First few items in each list:
+aaan aabb aabq aabx aacz aadd
+aaan aabb aabq aabx aacz aadd
+cxwa aqvg kpv bfru eiwd nbe
+bmzy ovt anya bclp aijn dmmr
+ok 1 - same order
+ok 2 - same contents, list-u-det-order
+ok 3 - same contents, hash ordered
+1..3
+            (warning: too few iterations for a reliable count)
+                Rate      lbs      lmu      lho      ldd baseline
+lbs      9.73e-002/s       --      -8%     -94%     -97%    -100%
+lmu          0.105/s       8%       --     -94%     -97%    -100%
+lho           1.62/s    1570%    1444%       --     -53%     -96%
+ldd           3.48/s    3476%    3207%     114%       --     -92%
+baseline      45.9/s   47048%   43492%    2724%    1218%       --
