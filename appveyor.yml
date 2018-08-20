@@ -1,0 +1,15 @@
+---
+
+install:
+  - choco install strawberryperl
+  - SET PATH=C:\strawberry\c\bin;C:\strawberry\perl\site\bin;C:\strawberry\perl\vendor\bin;C:\strawberry\perl\bin;%PATH%
+  - perl -v
+  - cpanm -n -q --installdeps .
+
+
+build: off
+
+test_script:
+  - prove -lv t
+
+
