@@ -229,7 +229,7 @@ produce the same results same for the same given
 PRNG sequence for reproducibility purposes.
 Using a hash to store the data provides rapid access,
 but getting the nth key requires the key list be generated
-each time, but Perl's hashes do not provide their
+each time, and Perl's hashes do not provide their
 keys in a deterministic
 order across all versions and platforms.  
 Binary searches over sorted lists proved very
