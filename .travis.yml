@@ -17,8 +17,6 @@ perl:
   - "5.28"
 
 script:
-  - perl Makefile.PL
-  - make
-  - prove -bv t
-  - make install
+  - prove -vl t
+
 
