@@ -344,8 +344,7 @@ Shawn Laffan, C<< <shawnlaffan at gmail.com> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-data-deterministic-access at rt.cpan.org>, or through
-the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=List-Unique-DeterministicOrder>.  
+Please report any bugs or feature requests via L<https://github.com/shawnlaffan/perl-List-Unique-DeterministicOrder/issues>.  
 
 
 =head1 ACKNOWLEDGEMENTS

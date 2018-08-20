@@ -16,12 +16,25 @@ WriteMakefile(
     },
     BUILD_REQUIRES => {
         'Test::More' => '0',
+        'rlib' => 0,
     },
     PREREQ_PM => {
-        'autovivification' => 0,
         'List::Util' => 0,
         'Carp' => 0,
     },
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/shawnlaffan/perl-List-Unique-DeterministicOrder',
+            },
+            bugtracker => {
+                web => 'https://github.com/shawnlaffan/perl-List-Unique-DeterministicOrder/issues/',
+            },
+        },
+    },
+
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'List-Unique-DeterministicOrder-*' },
 );
