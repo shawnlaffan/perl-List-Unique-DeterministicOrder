@@ -241,11 +241,12 @@ Since the order itself does not matter,
 only the ability to replicate it, this module was written.
 
 One could also use L<Hash::Ordered>, but it has the overhead
-of also storing values, which is not needed in this case.
+of storing values, which are not needed here.
 I also wrote this module before I benchmarked
-against Hash::Ordered.  In any case, this module is faster
-for the case described above (see the benchmarking results in
-bench.pl which is part of this distribution).
+against Hash::Ordered.  Regardless, this module is faster
+for the example use-case described above - see the
+benchmarking results in bench.pl (which is part of
+this distribution).
 
 
 =head1 METHODS
@@ -253,23 +254,18 @@ bench.pl which is part of this distribution).
 Note that most methods take a single argument
 (if any), so while the method names look
 hash-like, this is essentially cosmetic.
+In particular, it does not yet support splicing.  
 
 =head2 new
+
+    $foo->new();
+    $foo->new(data => [/a b c d e/]);
 
 Create a new object.
 Optionally pass data using the data
 keyword.  Duplicate keys are
 stored once only.
 
-    $foo->new();
-
-    $foo->new(data => [/a b c d e/]);
-
-=cut
-
-=head2 delete
-
-Deletes the key passed as an argument.
 
 =cut
 
@@ -279,19 +275,38 @@ True or false for if the key exists.
 
 =cut
 
+=head2 delete
+
+    $foo->delete('some key');
+
+Deletes the key passed as an argument.
+Returns the key name if successful, undef if
+the key was not found.
+
+=cut
+
+=head2 delete_key_at_pos
+
+    $foo->delete_key_at_pos(1);
+
+Removes a single key from the set at the specified position.
+
+
+=cut
+
 =head2 get_key_at_pos
 
-Returns the key at some position.
-
     $foo->get_key_at_pos(5);
+
+Returns the key at some position.
 
 =cut
 
 =head2 get_key_pos
 
-Returns the position of a key.
-
     $foo->get_key_pos('quux');
+
+Returns the position of a key.
 
 =cut
 
@@ -304,24 +319,22 @@ and the number of keys in scalar context.
 
 =head2 pop
 
+    $foo->pop;
+
 Removes and returns the last key in the list.
 
 =cut
 
 =head2 push
 
+    $foo->push('quux');
+
 Appends the specified key to the end of the list,
-unless it is already in the set.
+unless it is already in the list.
 
 =cut
 
-=head2 delete_key_at_pos
 
-Removes a single key from the set at the specified position.
-
-    $foo->delete_key_at_pos(1);
-
-=cut
 
 
 =head1 AUTHOR
@@ -331,40 +344,7 @@ Shawn Laffan, C<< <shawnlaffan at gmail.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-data-deterministic-access at rt.cpan.org>, or through
-the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=List-Unique-DeterministicOrder>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc List::Unique::DeterministicOrder
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=List-Unique-DeterministicOrder>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/List-Unique-DeterministicOrder>
-
-=item * CPAN Ratings
-
-L<https://cpanratings.perl.org/d/List-Unique-DeterministicOrder>
-
-=item * Search CPAN
-
-L<https://metacpan.org/release/List-Unique-DeterministicOrder>
-
-=back
+the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=List-Unique-DeterministicOrder>.  
 
 
 =head1 ACKNOWLEDGEMENTS
@@ -374,7 +354,7 @@ L<https://stackoverflow.com/questions/5682218/data-structure-insert-remove-conta
 
 =head1 SEE ALSO
 
-L<Hash::Ordered>
+L<Hash::Ordered> (and modules listed in its "See Also" section)
 
 L<List::BinarySearch>
 
