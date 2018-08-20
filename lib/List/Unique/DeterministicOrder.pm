@@ -155,8 +155,8 @@ sub _paranoia {
 
 =head1 NAME
 
-List::Unique::DeterministicOrder - Store a list of
-keys using a deterministic order based on
+List::Unique::DeterministicOrder - Store and access 
+a list of keys using a deterministic order based on
 the sequence of insertions and deletions
 
 =head1 VERSION
