@@ -193,8 +193,8 @@ them by either key name or index.
     $foo->push ('bardungle')
     print $foo->keys;
     #  foo fetangle quux bardungle
-
-    #  duplicates are stored only once,
+    
+    #  keys are stored only once,
     #  just like with a normal hash
     $foo->push ('fetangle')
     print $foo->keys;
@@ -227,6 +227,8 @@ then insert a new key, followed by more selections
 and removals.  The randomisations needed to 
 produce the same results same for the same given
 PRNG sequence for reproducibility purposes.
+
+
 Using a hash to store the data provides rapid access,
 but getting the nth key requires the key list be generated
 each time, and Perl's hashes do not provide their
@@ -237,17 +239,18 @@ effective for a while, but bottlenecks started
 to manifest when the data sets became
 much larger and the number of lists
 became both abundant and lengthy.
+
 Since the order itself does not matter,
 only the ability to replicate it, this module was written.
 
 One could also use L<Hash::Ordered>, but it has the overhead
 of storing values, which are not needed here.
 I also wrote this module before I benchmarked
-against Hash::Ordered.  Regardless, this module is faster
+against L<Hash::Ordered>.  Regardless, this module is faster
 for the example use-case described above - see the
 benchmarking results in bench.pl (which is part of
 this distribution).  That said, some of the implementation
-details have been adapted/borrowed from Hash::Ordered.
+details have been adapted/borrowed from L<Hash::Ordered>.
 
 
 =head1 METHODS
