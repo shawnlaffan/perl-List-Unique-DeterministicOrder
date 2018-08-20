@@ -173,6 +173,10 @@ sub baseline {
 
 __END__
 
+This first test fluctuates a fair bit,
+but List::Unique::DeterministicOrder is consistently fastest by ~40% or more.
+The others have not been tested with differing PRNG seeds.  
+
 perl etc\bench\bench.pl 5000 1000 1
 First few items in each list:
 aak aap aas abc abk aby
