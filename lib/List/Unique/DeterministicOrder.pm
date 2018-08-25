@@ -52,12 +52,10 @@ sub keys {
 }
 
 sub push {
-    my ($self, $key) = @_;
-
-    return if exists $self->[_HASH]{$key};
+    return if exists $_[0]->[_HASH]{$_[1]};
     
-    push @{$self->[_ARRAY]}, $key;
-    $self->[_HASH]{$key} = $#{$self->[_ARRAY]};
+    push @{$_[0]->[_ARRAY]}, $_[1];
+    $_[0]->[_HASH]{$_[1]} = $#{$_[0]->[_ARRAY]};
 }
 
 sub pop {
