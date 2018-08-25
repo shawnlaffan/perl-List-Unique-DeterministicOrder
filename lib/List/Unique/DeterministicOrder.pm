@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use List::Util 1.45 qw /uniq/;
 
-our $VERSION = 0.001;
+our $VERSION = 0.001_001;
 
 #no autovivification;
 
