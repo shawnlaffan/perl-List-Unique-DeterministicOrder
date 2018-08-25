@@ -45,10 +45,9 @@ sub exists {
 }
 
 sub keys {
-    my ($self) = @_;
-    return wantarray
-      ? @{$self->[_ARRAY]}
-      : scalar @{$self->[_ARRAY]};
+    wantarray
+      ? @{$_[0]->[_ARRAY]}
+      : scalar @{$_[0]->[_ARRAY]};
 }
 
 sub push {
