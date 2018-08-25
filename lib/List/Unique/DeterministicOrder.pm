@@ -15,6 +15,9 @@ use constant {
     _HASH  => 1, # unordered keys
 };
 
+use overload
+    q{bool}  => sub { !!%{ $_[0]->[_HASH] } },
+    fallback => 1;
 
 sub new {
     my ($package, %args) = @_;

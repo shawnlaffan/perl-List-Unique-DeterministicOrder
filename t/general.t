@@ -101,4 +101,12 @@ $one_item->delete_key_at_pos (0);
 
 is (scalar $one_item->keys, 0, 'empty list');
 
+#  boolean overload
+ok (!$one_item, 'false boolean');
+$one_item->push ('bazza');
+$one_item->push ('shazza');
+$one_item->push ('gazza');
+ok ($one_item, 'true boolean');
+
+
 done_testing();
