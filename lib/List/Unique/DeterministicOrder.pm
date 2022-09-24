@@ -43,6 +43,14 @@ sub new {
     return bless $self, $package;
 }
 
+sub clone {
+    my $self = shift;
+    my $cloned = $self->new ();
+    $cloned->[_ARRAY] = [@{$self->[_ARRAY]}];
+    $cloned->[_HASH]  = {%{$self->[_HASH]}};
+    return $cloned;
+}
+
 sub exists {
     exists $_[0]->[_HASH]{$_[1]};
 }
