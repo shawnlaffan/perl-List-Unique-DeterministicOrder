@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use List::Util 1.45 qw /uniq/;
 
-our $VERSION = 0.001_001;
+our $VERSION = 0.002;
 
 #no autovivification;
 
@@ -343,6 +343,14 @@ Removes and returns the last key in the list.
 
 Appends the specified key to the end of the list,
 unless it is already in the list.
+
+=cut
+
+=head2 clone
+
+    $foo->clone;
+
+Creates a clone of the object.
 
 =cut
 
