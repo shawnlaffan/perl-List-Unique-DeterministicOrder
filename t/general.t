@@ -1,4 +1,6 @@
 use 5.010;
+use strict;
+use warnings;
 use rlib;
 use Scalar::Util qw /refaddr/;
 
@@ -102,6 +104,14 @@ $one_item->delete_key_at_pos (0);
 
 is (scalar $one_item->keys, 0, 'empty list');
 
+#  delete last entry
+my $one_item_mk2 = List::Unique::DeterministicOrder->new (
+    data => ['a_key'],
+);
+$one_item_mk2->delete ('a_key');
+is (scalar $one_item_mk2->keys, 0, 'empty list');
+
+
 #  boolean overload
 ok (!$one_item, 'false boolean');
 $one_item->push ('bazza');
@@ -115,5 +125,6 @@ my $orig = List::Unique::DeterministicOrder->new(data => ['a' .. 'z']);
 my $cloned = $orig->clone;
 is_deeply $cloned, $orig, "Clone matches original";
 isnt refaddr $cloned->[0], refaddr $orig->[0], "Cloned and original refs differ";
+is blessed $cloned, blessed $orig, "Same package";
 
 done_testing();

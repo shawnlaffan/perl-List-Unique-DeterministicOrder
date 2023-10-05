@@ -5,8 +5,9 @@ use Carp;
 use strict;
 use warnings;
 use List::Util 1.45 qw /uniq/;
+use Scalar::Util qw /blessed/;
 
-our $VERSION = 0.002;
+our $VERSION = 0.004;
 
 #no autovivification;
 
@@ -45,7 +46,7 @@ sub new {
 
 sub clone {
     my $self = shift;
-    my $cloned = $self->new ();
+    my $cloned = bless [], blessed $self;
     $cloned->[_ARRAY] = [@{$self->[_ARRAY]}];
     $cloned->[_HASH]  = {%{$self->[_HASH]}};
     return $cloned;
@@ -92,16 +93,20 @@ sub delete {
     #  get the index while cleaning up
     my $pos = CORE::delete $self->[_HASH]{$key}
       // return;
-    
-    my $move_key = CORE::pop @{$self->[_ARRAY]};
-    #  make sure we don't just reinsert the last item
-    #  from a single item list
-    if ($move_key ne $key) {
-        $self->[_HASH]{$move_key} = $pos;
-        $self->[_ARRAY][$pos] = $move_key;
-    }
-    
-    return $key;
+
+    #  No need to update lists if we are
+    #  popping the last index in the array
+    return CORE::pop @{$self->[_ARRAY]}
+      if $pos == $#{$self->[_ARRAY]};
+
+    $key = CORE::pop @{$self->[_ARRAY]};
+    $self->[_HASH]{$key}  = $pos;
+    $self->[_ARRAY][$pos] = $key;
+
+    #  obfuscatory but lets us overwrite $key above
+    #  and thus avoid an extra scalar variable destruction
+    #  (assuming of course that doing so makes a meaningful difference)
+    return $_[1];
 }
 
 #  Delete the key at the specified position
@@ -118,11 +123,12 @@ sub delete_key_at_pos {
     
     #  make sure we don't just reinsert the last item
     #  from a single item list
-    if ($move_key ne $key) {
-        $self->[_HASH]{$move_key} = $pos;
-        $self->[_ARRAY][$pos] = $move_key;
-    }
-    
+    return $key
+      if $pos == @{$self->[_ARRAY]};
+
+    $self->[_HASH]{$move_key} = $pos;
+    $self->[_ARRAY][$pos] = $move_key;
+
     return $key;
 }
 
